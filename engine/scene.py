@@ -28,8 +28,6 @@ class Scene:
 					if collider.dettectCollision(rigidBody):
 						rigidBody.solveCollision(collider)
 
-
-
 	def draw(self):
 		for entity in self._entities:
 			self._entities[entity].draw()

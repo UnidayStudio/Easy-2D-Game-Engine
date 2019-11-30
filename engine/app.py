@@ -2,6 +2,7 @@ import pygame
 
 import engine.renderer
 from engine.timer import Timer
+from engine.events import Events
 
 class __App:
 	def __init__(self):
@@ -11,11 +12,19 @@ class __App:
 
 		self._activeScene = None
 		self._renderer = engine.renderer.Renderer()
+
+		self.events = Events()
 	################################
 
 	def run(self):
-		while pygame.event.poll().type != pygame.QUIT:
+		gameloop = True
+		while gameloop: #pygame.event.poll().type != pygame.QUIT:
 			self._deltaTimer.reset()
+			self.events.updateEvents()
+
+			if self.events.getQuit():
+				gameloop = False
+
 			scene = self.getActiveScene()
 
 			self._renderer.fill([20,20,20])
@@ -33,6 +42,9 @@ class __App:
 
 	def getDeltaTime(self):
 		return self._deltaTime
+
+	def getEvents(self):
+		return self.events
 
 	################################
 
