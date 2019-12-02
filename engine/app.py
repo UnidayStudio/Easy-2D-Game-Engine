@@ -3,10 +3,12 @@ import pygame
 import engine.renderer
 from engine.timer import Timer
 from engine.events import Events
+from engine.gui import Gui
 
 class __App:
 	def __init__(self):
 		pygame.init()
+
 		self._deltaTimer = Timer()
 		self._deltaTime = 0
 
@@ -14,6 +16,8 @@ class __App:
 		self._renderer = engine.renderer.Renderer()
 
 		self.events = Events()
+
+		self.gui = Gui()
 	################################
 
 	def run(self):
@@ -34,7 +38,11 @@ class __App:
 				scene.updatePhysics()
 				scene.draw()
 
+			self.gui.draw()
+
 			pygame.display.flip()
+
+
 			self._deltaTime = self._deltaTimer.get()
 
 	def getRenderer(self):

@@ -1,21 +1,27 @@
 {
-  "Player": {
-    "TransformComponent" : {},
-    "TestComponent": {},
-    "RigidBodyComponent" : {},
-    "ImageComponent": {
-      "image" : "data/images/GuyWalk1.png"
+  "entities": {
+    "Player": {
+      "components" : {
+        "TransformComponent": {},
+        "TestComponent": {},
+        "RigidBodyComponent": {},
+        "ImageComponent": {
+          "image": "data/images/GuyWalk1.png"
+        }
+      }
+    },
+    "Box": {
+      "components" : {
+        "TransformComponent": {
+          "position.x": 10,
+          "position.y": 350,
+          "scale.x": 400
+        },
+        "RectComponent": {
+          "color": [50, 230, 67]
+        },
+        "ColliderComponent": {}
+      }
     }
-  },
-  "Box": {
-    "TransformComponent" : {
-      "position.x" : 10,
-      "position.y" : 350,
-      "scale.x" : 400
-    },
-    "RectComponent" : {
-      "color" : [50, 230, 67]
-    },
-    "ColliderComponent" : {}
   }
 }

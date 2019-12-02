@@ -4,6 +4,9 @@ import engine.file
 
 class Renderer():
 	def __init__(self):
+		#| pygame.OPENGLBLIT
+		#bArgs = pygame.DOUBLEBUF | pygame.OPENGLBLIT | pygame.RESIZABLE
+		#bArgs = pygame.RESIZABLE
 		self._display = pygame.display.set_mode([640, 480])
 
 		self._images = {}

@@ -34,44 +34,47 @@ class Scene:
 
 	################################
 
+	def loadPrefabEntity(self, entityName, entityDict, externalComponents=None):
+		entity = engine.entity.Entity()
+
+		for componentName in entityDict["components"]:
+			componentAttr = None
+
+			if hasattr(engine.components, componentName):
+				componentAttr = getattr(engine.components, componentName)
+			# print("Default Component: ", componentName)
+
+			elif externalComponents:
+				componentAttr = getattr(externalComponents, componentName)
+			# print("External Component: ", componentName)
+
+			if not componentAttr:
+				# print("Component Not found:", componentName)
+				continue
+
+			component = componentAttr()
+
+			componentData = entityDict["components"][componentName]
+			for attrName in componentData:
+				stack = attrName.split(".")
+				endStack = component
+				if len(stack) > 1:
+					for n in range(len(stack) - 1):
+						endStack = getattr(endStack, stack[n])
+
+				setattr(endStack, stack[-1], componentData[attrName])
+			# print("\tAttr: ", attrName, " = ", componentData[attrName])
+
+			entity.addComponent(component)
+
+		self.addEntity(entityName, entity)
+
 	def loadPrefab(self, jsonPath, externalComponents=None):
 		file = open(jsonPath, "r")
 		data = eval(file.read())
 
-		for entityName in data:
-			entity = engine.entity.Entity()
-
-			for componentName in data[entityName]:
-				componentAttr = None
-
-				if hasattr(engine.components, componentName):
-					componentAttr = getattr(engine.components, componentName)
-					#print("Default Component: ", componentName)
-
-				elif externalComponents:
-					componentAttr = getattr(externalComponents, componentName)
-					#print("External Component: ", componentName)
-
-				if not componentAttr:
-					#print("Component Not found:", componentName)
-					continue
-
-				component = componentAttr()
-
-				componentData = data[entityName][componentName]
-				for attrName in componentData:
-					stack = attrName.split(".")
-					endStack = component
-					if len(stack) > 1:
-						for n in range(len(stack) - 1 ):
-							endStack = getattr(endStack, stack[n])
-
-					setattr(endStack, stack[-1], componentData[attrName])
-					#print("\tAttr: ", attrName, " = ", componentData[attrName])
-
-				entity.addComponent(component)
-
-			self.addEntity(entityName, entity)
+		for entityName in data["entities"]:
+			self.loadPrefabEntity(entityName, data["entities"][entityName], externalComponents)
 
 
 	################################
