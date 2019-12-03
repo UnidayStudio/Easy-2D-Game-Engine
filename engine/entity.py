@@ -33,3 +33,6 @@ class Entity:
 
 	def removeComponent(self, name : str):
 		del self._components[name]
+
+	def getComponentList(self):
+		return list(self._components.keys())

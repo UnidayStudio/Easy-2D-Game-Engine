@@ -1,5 +1,7 @@
 import pygame
 
+import engine.app
+
 KEY_UP 		= pygame.KEYUP
 KEY_PRESS 	= 1337
 KEY_DOWN 	= pygame.KEYDOWN
@@ -61,6 +63,9 @@ class Events():
 				return True
 		return False
 
+	def quitGame(self):
+		self._quit = True
+
 	################################
 
 	def _getPygameKey(self, value):
@@ -94,7 +99,10 @@ class Events():
 			eventType = event.type
 
 			if eventType == pygame.QUIT:
-				self._quit = True
+				self.quitGame()
+
+			elif eventType == pygame.VIDEORESIZE:
+				app = engine.app.getApp().getRenderer().resize(event.w, event.h)
 
 			elif eventType in [KEY_UP, KEY_DOWN]:
 				eventKey = event.key

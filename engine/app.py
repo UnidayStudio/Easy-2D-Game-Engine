@@ -5,8 +5,15 @@ from engine.timer import Timer
 from engine.events import Events
 from engine.gui import Gui
 
+from engine.editor import Editor
+
 class __App:
-	def __init__(self):
+	def __init__(self, withEditor=True):
+		self._editor = None
+		self._withEditor = withEditor
+		if self._withEditor:
+			self._editor = Editor()
+
 		pygame.init()
 
 		self._deltaTimer = Timer()
@@ -18,6 +25,28 @@ class __App:
 		self.events = Events()
 
 		self.gui = Gui()
+	################################
+
+	def getRenderer(self):
+		return self._renderer
+
+	def getDeltaTime(self):
+		return self._deltaTime
+
+	def getEvents(self):
+		return self.events
+
+	def getEditor(self):
+		return self._editor
+
+	################################
+
+	def setActiveScene(self, scene):
+		self._activeScene = scene
+
+	def getActiveScene(self):
+		return self._activeScene
+
 	################################
 
 	def run(self):
@@ -40,27 +69,12 @@ class __App:
 
 			self.gui.draw()
 
-			pygame.display.flip()
-
+			self._renderer.update()
+			if self._withEditor:
+				self._editor.update()
 
 			self._deltaTime = self._deltaTimer.get()
 
-	def getRenderer(self):
-		return self._renderer
-
-	def getDeltaTime(self):
-		return self._deltaTime
-
-	def getEvents(self):
-		return self.events
-
-	################################
-
-	def setActiveScene(self, scene):
-		self._activeScene = scene
-
-	def getActiveScene(self):
-		return self._activeScene
 
 __app = __App()
 

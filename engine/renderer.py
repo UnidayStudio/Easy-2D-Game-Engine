@@ -1,17 +1,19 @@
 import pygame
+import os
 
 import engine.file
 
 class Renderer():
 	def __init__(self):
-		#| pygame.OPENGLBLIT
-		#bArgs = pygame.DOUBLEBUF | pygame.OPENGLBLIT | pygame.RESIZABLE
-		#bArgs = pygame.RESIZABLE
-		self._display = pygame.display.set_mode([640, 480])
+		self._display = pygame.display.set_mode([640, 480], pygame.RESIZABLE)
+		#pygame.display.init()
 
 		self._images = {}
 
 	################################
+
+	def resize(self, w, h):
+		self._display = pygame.display.set_mode([w, h], pygame.RESIZABLE)
 
 	def fill(self, color):
 		self._display.fill(color)
@@ -28,16 +30,27 @@ class Renderer():
 		scale = transform.scale
 
 		image = self.getImage(imageName)
+		if image == None:
+			return
+
 		outImage = pygame.transform.scale(image, (int(scale.x), int(scale.y)))
 
 		self._display.blit(outImage, (int(pos.x), int(pos.y)))
+
+	def update(self):
+		pygame.display.flip()
+		#pygame.display.update()
 
 	################################
 
 	def getImage(self, name):
 		if not name in self._images:
 			#f = engine.file.getPath(name)
-			self._images[name] = pygame.image.load(name).convert_alpha()
+			try:
+				img = pygame.image.load(name)
+			except:
+				return None
+			self._images[name] = img.convert_alpha()
 		return self._images[name]
 
 	def getDisplay(self):

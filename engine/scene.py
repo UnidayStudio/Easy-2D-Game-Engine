@@ -32,6 +32,9 @@ class Scene:
 		for entity in self._entities:
 			self._entities[entity].draw()
 
+	def getEntityList(self):
+		return list(self._entities.keys())
+
 	################################
 
 	def loadPrefabEntity(self, entityName, entityDict, externalComponents=None):
