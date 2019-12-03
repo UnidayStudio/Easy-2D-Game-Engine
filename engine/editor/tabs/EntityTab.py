@@ -38,7 +38,10 @@ class EntityTab(Tab):
 			if isinstance(data[key], dict):
 				self._updateClass(getattr(classObj, key), data[key])
 			else:
-				setattr(classObj, key, type(getattr(classObj, key))(data[key].get()))
+				try:
+					keyData = type(getattr(classObj, key))(data[key].get())
+					setattr(classObj, key, keyData)
+				except: pass
 
 	def updateEntityVariables(self):
 		for component in self._components:
