@@ -1,5 +1,6 @@
 import engine.entity
 import engine.components
+import engine.file
 
 class Scene:
 	def __init__(self):
@@ -73,7 +74,7 @@ class Scene:
 		self.addEntity(entityName, entity)
 
 	def loadPrefab(self, jsonPath, externalComponents=None):
-		file = open(jsonPath, "r")
+		file = open(engine.file.getPath(jsonPath), "r")
 		data = eval(file.read())
 
 		for entityName in data["entities"]:

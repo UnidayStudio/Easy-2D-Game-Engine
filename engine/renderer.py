@@ -47,7 +47,7 @@ class Renderer():
 		if not name in self._images:
 			#f = engine.file.getPath(name)
 			try:
-				img = pygame.image.load(name)
+				img = pygame.image.load(engine.file.getPath(name))
 			except:
 				return None
 			self._images[name] = img.convert_alpha()
