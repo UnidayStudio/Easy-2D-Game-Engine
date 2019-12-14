@@ -3,9 +3,11 @@ import engine.components
 import engine.file
 
 class Scene:
-	def __init__(self):
+	def __init__(self, jsonFile, externalComponents=None):
 		self._entities = {}
 
+		if jsonFile!= None:
+			self.initScene(jsonFile, externalComponents)
 	################################
 
 	def updateLogic(self):
@@ -38,6 +40,22 @@ class Scene:
 
 	################################
 
+	def initScene(self, jsonFile, externalComponents=None):
+		data = engine.file.getJsonData(jsonFile)
+
+		if "prefabs" in data:
+			for prefab in data["prefabs"]:
+				if prefab.startswith("#"):
+					continue
+				file = data["prefabs"][prefab]["file"]
+				map = None
+				if "map" in data["prefabs"][prefab]:
+					map = data["prefabs"][prefab]["map"]
+					if map == "none":
+						map =None
+
+				self.loadPrefab(file, map, externalComponents)
+
 	def loadPrefabEntity(self, entityName, entityDict, externalComponents=None):
 		entity = engine.entity.Entity()
 
@@ -59,6 +77,7 @@ class Scene:
 			component = componentAttr()
 
 			componentData = entityDict["components"][componentName]
+
 			for attrName in componentData:
 				stack = attrName.split(".")
 				endStack = component
@@ -67,26 +86,70 @@ class Scene:
 						endStack = getattr(endStack, stack[n])
 
 				setattr(endStack, stack[-1], componentData[attrName])
-			# print("\tAttr: ", attrName, " = ", componentData[attrName])
-
 			entity.addComponent(component)
 
 		self.addEntity(entityName, entity)
+		return entity
 
-	def loadPrefab(self, jsonPath, externalComponents=None):
-		file = open(engine.file.getPath(jsonPath), "r")
-		data = eval(file.read())
+	def __overrideEntityTransform(self, entity, transformList):
+		cmp = entity.getComponent("TransformComponent")
 
-		for entityName in data["entities"]:
-			self.loadPrefabEntity(entityName, data["entities"][entityName], externalComponents)
+		if cmp != None:
+			cmp.position = engine.math.Vector(transformList[0], transformList[1])
+			if len(transformList) == 4:
+				cmp.scale = engine.math.Vector(transformList[2], transformList[3])
+
+	def loadPrefab(self, jsonPath, transformOverrides=None, externalComponents=None):
+		data = engine.file.getJsonData(jsonPath)
+
+		if transformOverrides == None:
+			for entityName in data["entities"]:
+				entityData = data["entities"][entityName]
+				entity = self.loadPrefabEntity(entityName, entityData, externalComponents)
+
+		elif isinstance(transformOverrides, list):
+			for t in transformOverrides:
+				for entityName in data["entities"]:
+					entityData = data["entities"][entityName]
+					entity = self.loadPrefabEntity(entityName, entityData, externalComponents)
+
+					self.__overrideEntityTransform(entity, t)
+
+		elif isinstance(transformOverrides, dict):
+			mapData = engine.file.getTextData(transformOverrides["file"])
+			gridSize = [32,32]
+			if "gridSize" in transformOverrides:
+				gridSize = transformOverrides["gridSize"]
+			gridScale =[32,32]
+			if "gridScale" in transformOverrides:
+				gridScale = transformOverrides["gridScale"]
+			relations = {}
+			if "relations" in transformOverrides:
+				relations = transformOverrides["relations"]
+
+			for y, line in enumerate(mapData.split("\n")):
+				for x, char in enumerate(line):
+					if not char in relations:
+						continue
+					entityName = relations[char]
+					entityData = data["entities"][entityName]
+					entity = self.loadPrefabEntity(entityName, entityData, externalComponents)
+
+					pos = [gridSize[0]*x, gridSize[1]*y]
+					t = pos + gridScale
+
+					self.__overrideEntityTransform(entity, t)
+
+
 
 
 	################################
 
 	def addEntity(self, name, entity):
 		finalName = name
-		sufix = 1
+		sufix = 0
 		while finalName in self._entities:
+			sufix += 1
 			finalName = name+" ("+str(sufix)+")"
 
 		self._entities[finalName] = entity

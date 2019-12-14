@@ -1,0 +1,7 @@
+{
+  "game": {
+    "title" : "Super Game 01",
+    "icon" : "data/images/GuyWalk1.png"
+  },
+  "mainScene" : "data/scenes/scene1.json"
+}

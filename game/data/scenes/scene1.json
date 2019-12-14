@@ -1,0 +1,23 @@
+{
+  "prefabs": {
+    "gameplay" : {
+      "file" : "data/prefabs/gameplay.json",
+      "map" : "none"
+    },
+    "#props" : {
+      "file" : "data/prefabs/props.json",
+      "map" : [[10,350], [200,350]]
+    },
+    "props" : {
+      "file" : "data/prefabs/props.json",
+      "map" : {
+        "file" : "data/maps/scene1.map",
+        "gridSize" : [100,100],
+        "gridScale": [80,80],
+        "relations" : {
+          "#" : "Box"
+        }
+      }
+    }
+  }
+}

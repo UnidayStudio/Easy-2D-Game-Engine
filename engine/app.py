@@ -1,14 +1,17 @@
 import pygame
 
 import engine.renderer
+import engine.file
+
 from engine.timer import Timer
 from engine.events import Events
 from engine.gui import Gui
+from engine.scene import Scene
 
 from engine.editor import Editor
 
 class __App:
-	def __init__(self, withEditor=True):
+	def __init__(self, withEditor=False):
 		self._editor = None
 		self._withEditor = withEditor
 		if self._withEditor:
@@ -26,6 +29,21 @@ class __App:
 
 		self.gui = Gui()
 	################################
+
+	def initGame(self, mainFile, externalComponents=None):
+		data = engine.file.getJsonData(mainFile)
+
+		if "game" in data:
+			if "title" in data["game"]:
+				pygame.display.set_caption(data["game"]["title"])
+			if "icon" in data["game"]:
+				img = self.getRenderer().getImage(data["game"]["icon"])
+				pygame.display.set_icon(img)
+
+		if "mainScene" in data:
+			scene = Scene(data["mainScene"], externalComponents)
+			self.setActiveScene(scene)
+
 
 	def getRenderer(self):
 		return self._renderer

@@ -12,6 +12,8 @@ class TestComponent(engine.Component):
 		transform = self.getEntity().getComponent("TransformComponent")
 		events = engine.getApp().getEvents()
 
+		entity = engine.Entity()
+
 		if events.pressedKey("K_w"):
 			print("in!")
 		#if events.activeKey("K_w"):

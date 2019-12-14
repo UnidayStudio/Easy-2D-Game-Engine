@@ -9,19 +9,6 @@
           "image": "data/images/GuyWalk1.png"
         }
       }
-    },
-    "Box": {
-      "components" : {
-        "TransformComponent": {
-          "position.x": 10,
-          "position.y": 350,
-          "scale.x": 400
-        },
-        "RectComponent": {
-          "color": [50, 230, 67]
-        },
-        "ColliderComponent": {}
-      }
     }
   }
 }
