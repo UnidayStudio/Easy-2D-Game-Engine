@@ -45,7 +45,6 @@ class Renderer():
 
 	def getImage(self, name):
 		if not name in self._images:
-			#f = engine.file.getPath(name)
 			try:
 				img = pygame.image.load(engine.file.getPath(name))
 			except:

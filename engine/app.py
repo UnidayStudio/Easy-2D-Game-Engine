@@ -7,6 +7,7 @@ from engine.timer import Timer
 from engine.events import Events
 from engine.gui import Gui
 from engine.scene import Scene
+from engine.mixer import Mixer
 
 from engine.editor import Editor
 
@@ -23,8 +24,9 @@ class __App:
 		self._deltaTime = 0
 
 		self._activeScene = None
-		self._renderer = engine.renderer.Renderer()
 
+		self._renderer = engine.renderer.Renderer()
+		self._mixer = Mixer()
 		self.events = Events()
 
 		self.gui = Gui()
@@ -47,6 +49,9 @@ class __App:
 
 	def getRenderer(self):
 		return self._renderer
+
+	def getMixer(self):
+		return self._mixer
 
 	def getDeltaTime(self):
 		return self._deltaTime

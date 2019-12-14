@@ -16,7 +16,12 @@ class TestComponent(engine.Component):
 
 		if events.pressedKey("K_w"):
 			print("in!")
+			mixer = engine.getApp().getMixer()
+
+			mixer.playSound("data/sounds/metalClick.wav")
+
 		#if events.activeKey("K_w"):
 		#	print("active!")
+
 		if events.releasedKey("K_w"):
 			print("out!")
