@@ -15,7 +15,8 @@
         "gridSize" : [100,100],
         "gridScale": [80,80],
         "relations" : {
-          "#" : "Box"
+          "#" : "Box",
+          "@" : "TestSprite"
         }
       }
     }

@@ -29,7 +29,12 @@ class Renderer():
 		pos = transform.position
 		scale = transform.scale
 
-		image = self.getImage(imageName)
+		image = None
+		if isinstance(imageName, str):
+			image = self.getImage(imageName)
+		else:
+			image = imageName
+			#print("wit")
 		if image == None:
 			return
 

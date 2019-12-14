@@ -12,6 +12,20 @@
         },
         "ColliderComponent": {}
       }
+    },
+    "TestSprite": {
+      "components" :{
+        "TransformComponent":{},
+        "SpriteComponent": {
+          "image" : "data/images/0.png",
+          "grid.x" : 4,
+          "grid.y" : 4,
+          "frameStart" : 0,
+          "frameEnd" : 15,
+          "currentFrame" : 0,
+          "framesPerSecond" : 10
+        }
+      }
     }
   }
 }
