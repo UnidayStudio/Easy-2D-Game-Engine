@@ -59,34 +59,7 @@ class Scene:
 	def loadPrefabEntity(self, entityName, entityDict, externalComponents=None):
 		entity = engine.entity.Entity()
 
-		for componentName in entityDict["components"]:
-			componentAttr = None
-
-			if hasattr(engine.components, componentName):
-				componentAttr = getattr(engine.components, componentName)
-			# print("Default Component: ", componentName)
-
-			elif externalComponents:
-				componentAttr = getattr(externalComponents, componentName)
-			# print("External Component: ", componentName)
-
-			if not componentAttr:
-				# print("Component Not found:", componentName)
-				continue
-
-			component = componentAttr()
-
-			componentData = entityDict["components"][componentName]
-
-			for attrName in componentData:
-				stack = attrName.split(".")
-				endStack = component
-				if len(stack) > 1:
-					for n in range(len(stack) - 1):
-						endStack = getattr(endStack, stack[n])
-
-				setattr(endStack, stack[-1], componentData[attrName])
-			entity.addComponent(component)
+		entity.parseJsonComponents(entityDict["components"], externalComponents)
 
 		self.addEntity(entityName, entity)
 		return entity
@@ -139,8 +112,6 @@ class Scene:
 					t = pos + gridScale
 
 					self.__overrideEntityTransform(entity, t)
-
-
 
 
 	################################

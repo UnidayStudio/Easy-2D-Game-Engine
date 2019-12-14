@@ -1,3 +1,5 @@
+import engine.components
+
 class Entity:
 	def __init__(self):
 		self._components = {}
@@ -18,6 +20,24 @@ class Entity:
 			self._components[component].draw()
 
 	################################
+
+	def parseJsonComponents(self, jsonDict, externalComponents=None):
+		for componentName in jsonDict:
+			componentAttr = None
+
+			if hasattr(engine.components, componentName):
+				componentAttr = getattr(engine.components, componentName)
+
+			elif externalComponents:
+				componentAttr = getattr(externalComponents, componentName)
+
+			if not componentAttr:
+				print("Component Not found:", componentName)
+				continue
+
+			component = componentAttr()
+			component.parseJsonData(jsonDict[componentName])
+			self.addComponent(component)
 
 	def addComponent(self, component):
 		name = component.__class__.__name__
