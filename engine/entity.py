@@ -1,5 +1,7 @@
 import engine.components
 
+import engine.app
+
 class Entity:
 	def __init__(self):
 		self._components = {}
@@ -21,7 +23,9 @@ class Entity:
 
 	################################
 
-	def parseJsonComponents(self, jsonDict, externalComponents=None):
+	def parseJsonComponents(self, jsonDict):
+		externalComponents = engine.app.getApp().getExternalComponents()
+
 		for componentName in jsonDict:
 			componentAttr = None
 

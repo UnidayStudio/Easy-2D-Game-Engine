@@ -4,16 +4,14 @@ import engine.file
 import engine.gui
 
 class Scene:
-	def __init__(self, jsonFile, externalComponents=None):
+	def __init__(self, jsonFile):
 		self._entities = {}
 
-		#self._guiCanvas = engine.gui.Canvas()
-		#self._guiCanvas.getButton("Test1")
 		self._guiCanvas = {}
 		self._guiCanvasActive = None
 
 		if jsonFile!= None:
-			self.initScene(jsonFile, externalComponents)
+			self.initScene(jsonFile)
 	################################
 
 	def updateLogic(self):
@@ -67,7 +65,7 @@ class Scene:
 
 	################################
 
-	def initScene(self, jsonFile, externalComponents=None):
+	def initScene(self, jsonFile):
 		data = engine.file.getJsonData(jsonFile)
 
 		if "prefabs" in data:
@@ -81,7 +79,7 @@ class Scene:
 					if map == "none":
 						map =None
 
-				self.loadPrefab(file, map, externalComponents)
+				self.loadPrefab(file, map)
 
 		if "canvas" in data:
 			for canvasName in data["canvas"]:
@@ -92,10 +90,10 @@ class Scene:
 		if "mainCanvas" in data:
 			self.setActiveGuiCanvas(data["mainCanvas"])
 
-	def loadPrefabEntity(self, entityName, entityDict, externalComponents=None):
+	def loadPrefabEntity(self, entityName, entityDict):
 		entity = engine.entity.Entity()
 
-		entity.parseJsonComponents(entityDict["components"], externalComponents)
+		entity.parseJsonComponents(entityDict["components"])
 
 		self.addEntity(entityName, entity)
 		return entity
@@ -108,19 +106,19 @@ class Scene:
 			if len(transformList) == 4:
 				cmp.scale = engine.math.Vector(transformList[2], transformList[3])
 
-	def loadPrefab(self, jsonPath, transformOverrides=None, externalComponents=None):
+	def loadPrefab(self, jsonPath, transformOverrides=None):
 		data = engine.file.getJsonData(jsonPath)
 
 		if transformOverrides == None:
 			for entityName in data["entities"]:
 				entityData = data["entities"][entityName]
-				entity = self.loadPrefabEntity(entityName, entityData, externalComponents)
+				entity = self.loadPrefabEntity(entityName, entityData)
 
 		elif isinstance(transformOverrides, list):
 			for t in transformOverrides:
 				for entityName in data["entities"]:
 					entityData = data["entities"][entityName]
-					entity = self.loadPrefabEntity(entityName, entityData, externalComponents)
+					entity = self.loadPrefabEntity(entityName, entityData)
 
 					self.__overrideEntityTransform(entity, t)
 
@@ -142,7 +140,7 @@ class Scene:
 						continue
 					entityName = relations[char]
 					entityData = data["entities"][entityName]
-					entity = self.loadPrefabEntity(entityName, entityData, externalComponents)
+					entity = self.loadPrefabEntity(entityName, entityData)
 
 					pos = [gridSize[0]*x, gridSize[1]*y]
 					t = pos + gridScale

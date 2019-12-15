@@ -30,11 +30,14 @@ class __App:
 		self.events = Events()
 
 		self._buttonCallbacks = None
+		self._externalComponents = None
 
 	################################
 
 	def initGame(self, mainFile, externalComponents=None, buttonCallbacks=None):
 		self._buttonCallbacks = buttonCallbacks
+		self._externalComponents = externalComponents
+
 		data = engine.file.getJsonData(mainFile)
 
 		if "game" in data:
@@ -45,7 +48,7 @@ class __App:
 				pygame.display.set_icon(img)
 
 		if "mainScene" in data:
-			scene = Scene(data["mainScene"], externalComponents)
+			scene = Scene(data["mainScene"])
 			self.setActiveScene(scene)
 
 	def getRenderer(self):
@@ -67,6 +70,9 @@ class __App:
 
 	def getButtonCallbacks(self):
 		return self._buttonCallbacks
+
+	def getExternalComponents(self):
+		return self._externalComponents
 
 	################################
 
