@@ -117,17 +117,17 @@ def getApp():
 
 ###################################
 
-def getRenderer():
+def getRenderer() -> engine.renderer.Renderer:
 	return getApp().getRenderer()
 
-def getEvents():
+def getEvents() -> Events:
 	return getApp().getEvents()
 
-def getMixer():
+def getMixer() -> Mixer:
 	return getApp().getMixer()
 
 def getDeltaTime():
 	return getApp().getDeltaTime()
 
-def getActiveScene():
+def getActiveScene() -> Scene:
 	return getApp().getActiveScene()
