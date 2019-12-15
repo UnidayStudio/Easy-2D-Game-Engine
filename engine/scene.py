@@ -7,8 +7,10 @@ class Scene:
 	def __init__(self, jsonFile, externalComponents=None):
 		self._entities = {}
 
-		self._guiCanvas = engine.gui.Canvas()
-		self._guiCanvas.getButton("Test1")
+		#self._guiCanvas = engine.gui.Canvas()
+		#self._guiCanvas.getButton("Test1")
+		self._guiCanvas = {}
+		self._guiCanvasActive = None
 
 		if jsonFile!= None:
 			self.initScene(jsonFile, externalComponents)
@@ -40,10 +42,25 @@ class Scene:
 			self._entities[entity].draw()
 
 	def drawGui(self):
-		self._guiCanvas.update()
+		canva = self.getActiveGuiCanvas()
+		if canva != None:
+			canva.update()
 
-	def getGui(self):
-		return self._guiCanvas
+	#####
+
+	def setActiveGuiCanvas(self, canvasName):
+		if canvasName in self._guiCanvas:
+			self._guiCanvasActive = canvasName
+
+	def getActiveGuiCanvasName(self):
+		return self._guiCanvasActive
+
+	def getActiveGuiCanvas(self):
+		if self._guiCanvasActive == None:
+			return None
+		return self._guiCanvas[self._guiCanvasActive]
+
+	#####
 
 	def getEntityList(self):
 		return list(self._entities.keys())
@@ -65,6 +82,15 @@ class Scene:
 						map =None
 
 				self.loadPrefab(file, map, externalComponents)
+
+		if "canvas" in data:
+			for canvasName in data["canvas"]:
+				canvas = engine.gui.Canvas()
+				canvas.loadJsonData(data["canvas"][canvasName])
+				self._guiCanvas[canvasName] = canvas
+
+		if "mainCanvas" in data:
+			self.setActiveGuiCanvas(data["mainCanvas"])
 
 	def loadPrefabEntity(self, entityName, entityDict, externalComponents=None):
 		entity = engine.entity.Entity()

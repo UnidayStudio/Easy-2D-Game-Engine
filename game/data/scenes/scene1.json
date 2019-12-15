@@ -26,8 +26,8 @@
     "canvas1": {
       "buttons" : {
         "Test Button": {
-          "position" : [0.4, 0.4],
-          "scale" : [0.2, 0.2]
+          "position" : [0.3, 0.4],
+          "scale" : [0.4, 0.2]
         }
       }
     },

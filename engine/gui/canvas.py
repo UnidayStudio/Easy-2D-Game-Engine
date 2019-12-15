@@ -12,6 +12,12 @@ class Canvas():
 		self._manager = pygame_gui.UIManager((640, 480), theme)
 		self._buttons = {}
 
+	def loadJsonData(self, jsonData):
+		if "buttons" in jsonData:
+			for buttonName in jsonData["buttons"]:
+				button = self.getButton(buttonName)
+				button.loadJsonData(jsonData["buttons"][buttonName])
+
 	def getPygameGuiManager(self):
 		return self._manager
 

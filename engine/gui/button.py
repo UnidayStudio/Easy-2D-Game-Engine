@@ -21,6 +21,14 @@ class Button():
 		self._functionCallbacks = []
 		self._killed = False
 
+	def loadJsonData(self, jsonData):
+		if "position" in jsonData:
+			pos = jsonData["position"]
+			self.setPosition(pos[0], pos[1])
+		if "scale" in jsonData:
+			scale = jsonData["scale"]
+			self.setScale(scale[0], scale[1])
+
 	def isKilled(self):
 		return self._killed
 
