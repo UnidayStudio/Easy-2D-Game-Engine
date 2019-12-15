@@ -2,10 +2,10 @@ import pygame
 
 import engine.renderer
 import engine.file
+import engine.gui
 
 from engine.timer import Timer
 from engine.events import Events
-from engine.gui import Gui
 from engine.scene import Scene
 from engine.mixer import Mixer
 
@@ -29,7 +29,6 @@ class __App:
 		self._mixer = Mixer()
 		self.events = Events()
 
-		self.gui = Gui()
 	################################
 
 	def initGame(self, mainFile, externalComponents=None):
@@ -45,7 +44,6 @@ class __App:
 		if "mainScene" in data:
 			scene = Scene(data["mainScene"], externalComponents)
 			self.setActiveScene(scene)
-
 
 	def getRenderer(self):
 		return self._renderer
@@ -89,8 +87,7 @@ class __App:
 				scene.updateLogic()
 				scene.updatePhysics()
 				scene.draw()
-
-			self.gui.draw()
+				scene.drawGui()
 
 			self._renderer.update()
 			if self._withEditor:
@@ -103,3 +100,20 @@ __app = __App()
 
 def getApp():
 	return __app
+
+###################################
+
+def getRenderer():
+	return getApp().getRenderer()
+
+def getEvents():
+	return getApp().getEvents()
+
+def getMixer():
+	return getApp().getMixer()
+
+def getDeltaTime():
+	return getApp().getDeltaTime()
+
+def getActiveScene():
+	return getApp().getActiveScene()

@@ -23,6 +23,8 @@ class Events():
 		self._mouseEvents = {}
 		self._quit = False
 
+		self._eventQueue = []
+
 	def getQuit(self):
 		return self._quit
 
@@ -73,6 +75,9 @@ class Events():
 			return value
 		return getattr(pygame, value)
 
+	def getPygameEvents(self):
+		return self._eventQueue
+
 	def updateEvents(self):
 		# Keyboard...
 		toRemove = []
@@ -95,7 +100,9 @@ class Events():
 			del self._mouseEvents[obj]
 
 		# Updating the dictionaries again
-		for event in pygame.event.get():
+		self._eventQueue = pygame.event.get()
+
+		for event in self.getPygameEvents():
 			eventType = event.type
 
 			if eventType == pygame.QUIT:

@@ -1,10 +1,14 @@
 import engine.entity
 import engine.components
 import engine.file
+import engine.gui
 
 class Scene:
 	def __init__(self, jsonFile, externalComponents=None):
 		self._entities = {}
+
+		self._guiCanvas = engine.gui.Canvas()
+		self._guiCanvas.getButton("Test1")
 
 		if jsonFile!= None:
 			self.initScene(jsonFile, externalComponents)
@@ -34,6 +38,12 @@ class Scene:
 	def draw(self):
 		for entity in self._entities:
 			self._entities[entity].draw()
+
+	def drawGui(self):
+		self._guiCanvas.update()
+
+	def getGui(self):
+		return self._guiCanvas
 
 	def getEntityList(self):
 		return list(self._entities.keys())

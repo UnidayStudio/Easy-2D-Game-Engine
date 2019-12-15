@@ -5,7 +5,8 @@ import engine.file
 
 class Renderer():
 	def __init__(self):
-		self._display = pygame.display.set_mode([640, 480], pygame.RESIZABLE)
+		self._resolution = [640, 480]
+		self._display = pygame.display.set_mode(self._resolution, pygame.RESIZABLE)
 		#pygame.display.init()
 
 		self._images = {}
@@ -13,7 +14,11 @@ class Renderer():
 	################################
 
 	def resize(self, w, h):
-		self._display = pygame.display.set_mode([w, h], pygame.RESIZABLE)
+		self._resolution =[w, h]
+		self._display = pygame.display.set_mode(self._resolution, pygame.RESIZABLE)
+
+	def getResolution(self):
+		return self._resolution
 
 	def fill(self, color):
 		self._display.fill(color)

@@ -20,5 +20,21 @@
         }
       }
     }
+  },
+  "mainCanvas" : "canvas1",
+  "canvas" : {
+    "canvas1": {
+      "buttons" : {
+        "Test Button": {
+          "position" : [0.4, 0.4],
+          "scale" : [0.2, 0.2]
+        }
+      }
+    },
+    "canvas2" : {
+      "buttons" : {
+
+      }
+    }
   }
 }
