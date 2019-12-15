@@ -11,9 +11,11 @@ if getattr(sys, "frozen", False):
 import engine
 import game.data.components
 
+import game.data.buttonCallbacks as buttonCallbacks
+
 def main():
 	app = engine.getApp()
-	app.initGame("data/main.json", game.data.components)
+	app.initGame("data/main.json", game.data.components, buttonCallbacks)
 	app.run()
 
 if __name__ == "__main__":

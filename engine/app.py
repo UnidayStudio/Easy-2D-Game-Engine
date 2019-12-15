@@ -29,9 +29,12 @@ class __App:
 		self._mixer = Mixer()
 		self.events = Events()
 
+		self._buttonCallbacks = None
+
 	################################
 
-	def initGame(self, mainFile, externalComponents=None):
+	def initGame(self, mainFile, externalComponents=None, buttonCallbacks=None):
+		self._buttonCallbacks = buttonCallbacks
 		data = engine.file.getJsonData(mainFile)
 
 		if "game" in data:
@@ -59,6 +62,11 @@ class __App:
 
 	def getEditor(self):
 		return self._editor
+
+	###
+
+	def getButtonCallbacks(self):
+		return self._buttonCallbacks
 
 	################################
 

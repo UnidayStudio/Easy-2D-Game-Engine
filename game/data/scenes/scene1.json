@@ -27,7 +27,8 @@
       "buttons" : {
         "Test Button": {
           "position" : [0.3, 0.4],
-          "scale" : [0.4, 0.2]
+          "scale" : [0.4, 0.2],
+          "callback" : "exampleButton"
         }
       }
     },

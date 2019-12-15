@@ -28,6 +28,11 @@ class Button():
 		if "scale" in jsonData:
 			scale = jsonData["scale"]
 			self.setScale(scale[0], scale[1])
+		if "callback" in jsonData:
+			callbacks = engine.getApp().getButtonCallbacks()
+			if hasattr(callbacks, jsonData["callback"]):
+				f = getattr(callbacks, jsonData["callback"])
+				self.addFunctionCallback(f)
 
 	def isKilled(self):
 		return self._killed
