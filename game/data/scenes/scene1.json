@@ -27,8 +27,15 @@
       "buttons" : {
         "Test Button": {
           "position" : [0.3, 0.4],
-          "scale" : [0.4, 0.2],
+          "scale" : [0.4, 0.1],
           "callback" : "exampleButton"
+        }
+      },
+      "textBoxes": {
+        "Simple Html Text": {
+          "position" : [0.3, 0.2],
+          "scale" : [0.4, 0.18],
+          "html" : "This is a <b>HTML</b> text!"
         }
       }
     },

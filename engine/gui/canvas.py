@@ -5,39 +5,60 @@ import engine.app
 import engine.file
 
 from engine.gui.button import *
+from engine.gui.textbox import *
 
 class Canvas():
 	def __init__(self):
 		theme = engine.file.getPath("data/gui.json")
 		self._manager = pygame_gui.UIManager((640, 480), theme)
-		self._buttons = {}
+		self._elements = {}
 
 	def loadJsonData(self, jsonData):
 		if "buttons" in jsonData:
 			for buttonName in jsonData["buttons"]:
-				button = self.getButton(buttonName)
+				button = self.addButton(buttonName)
 				button.loadJsonData(jsonData["buttons"][buttonName])
+		if "textBoxes" in jsonData:
+			for textBoxName in jsonData["textBoxes"]:
+				textBox = self.addTextBox(textBoxName)
+				textBox.loadJsonData(jsonData["textBoxes"][textBoxName])
 
 	def getPygameGuiManager(self):
 		return self._manager
 
-	def getButton(self, buttonName):
-		if not buttonName in self._buttons:
-			self._buttons[buttonName] = Button(buttonName, self)
-		return self._buttons[buttonName]
+	################################
 
-	def removeButton(self, buttonName):
-		if buttonName in self._buttons:
-			self._buttons[buttonName].kill()
-			del self._buttons[buttonName]
+	def addButton(self, buttonName):
+		if not buttonName in self._elements:
+			self._elements[buttonName] = Button(buttonName, self)
+		return self._elements[buttonName]
 
-	def _cleanupKilledButtons(self):
+	def addTextBox(self, textBoxName, htmlText=""):
+		if not textBoxName in self._elements:
+			self._elements[textBoxName] = TextBox(htmlText, self)
+		return self._elements[textBoxName]
+
+	################################
+
+	def getElement(self, elementName):
+		if not elementName in self._elements:
+			return None#self._elements[elementName] = Button(elementName, self)
+		return self._elements[elementName]
+
+	################################
+
+	def removeElement(self, elementName):
+		if elementName in self._elements:
+			self._elements[elementName].kill()
+			del self._elements[elementName]
+
+	def _cleanupKilledElements(self):
 		toRemove = []
-		for buttonName in self._buttons:
-			if self._buttons[buttonName].isKilled():
-				toRemove.append(buttonName)
-		for buttonName in toRemove:
-			del self._buttons[buttonName]
+		for elementName in self._elements:
+			if self._elements[elementName].isKilled():
+				toRemove.append(elementName)
+		for elementName in toRemove:
+			del self._elements[elementName]
 
 
 	def _processEvents(self):
@@ -47,18 +68,18 @@ class Canvas():
 		for event in events:
 			self._manager.process_events(event)
 
-	def _updateButtons(self):
-		for button in self._buttons:
-			self._buttons[button].update()
+	def _updateElements(self):
+		for elementName in self._elements:
+			self._elements[elementName].update()
 
 	def update(self):
 		app = engine.app.getApp()
 		display = app.getRenderer().getDisplay()
 
-		self._cleanupKilledButtons()
+		self._cleanupKilledElements()
 		self._processEvents()
 
 		self._manager.update(app.getDeltaTime())
 		self._manager.draw_ui(display)
 
-		self._updateButtons()
+		self._updateElements()

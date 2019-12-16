@@ -16,8 +16,8 @@
         {
             "shape": "rounded_rectangle",
             "border_width": "0",
-            "shadow_width": "8",
-            "shape_corner_radius": "8"
+            "shadow_width": "0",
+            "shape_corner_radius": "15"
         }
     },
     "drop_down_menu":
@@ -97,8 +97,8 @@
         {
             "normal_text": "#E0E0E0",
             "text_shadow": "#202020",
-            "normal_border": "#202020",
-            "filled_bar": "#F04040A0,#A03080A0,90",
+            "normal_border": "#20202000",
+            "filled_bar": "#F04040FF",
             "unfilled_bar": "#A0A0A0A0,#A0A0A050,270"
         },
         "misc":
@@ -120,7 +120,7 @@
         {
             "shape": "rounded_rectangle",
             "shape_corner_radius": "15",
-            "border_width": "3"
+            "border_width": "0"
         }
     },
     "text_entry_line":
