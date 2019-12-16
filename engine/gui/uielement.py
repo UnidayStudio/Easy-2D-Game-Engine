@@ -49,8 +49,11 @@ class UIElement():
 		position = res * self._position
 		scale = res * self._scale
 
-		self._element.set_position(position.getList())
-		self._element.set_dimensions(scale.getList())
+		self._updateElementTransform(position.getList(), scale.getList())
+
+	def _updateElementTransform(self, position, scale):
+		self._element.set_position(position)
+		self._element.set_dimensions(scale)
 
 	############################
 

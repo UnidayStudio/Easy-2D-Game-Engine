@@ -6,6 +6,7 @@ import engine.file
 
 from engine.gui.button import *
 from engine.gui.textbox import *
+from engine.gui.healthbar import *
 
 class Canvas():
 	def __init__(self):
@@ -18,10 +19,16 @@ class Canvas():
 			for buttonName in jsonData["buttons"]:
 				button = self.addButton(buttonName)
 				button.loadJsonData(jsonData["buttons"][buttonName])
+
 		if "textBoxes" in jsonData:
 			for textBoxName in jsonData["textBoxes"]:
 				textBox = self.addTextBox(textBoxName)
 				textBox.loadJsonData(jsonData["textBoxes"][textBoxName])
+
+		if "healthBars" in jsonData:
+			for healthBarName in jsonData["healthBars"]:
+				healthBar = self.addHealthBar(healthBarName)
+				healthBar.loadJsonData(jsonData["healthBars"][healthBarName])
 
 	def getPygameGuiManager(self):
 		return self._manager
@@ -37,6 +44,11 @@ class Canvas():
 		if not textBoxName in self._elements:
 			self._elements[textBoxName] = TextBox(htmlText, self)
 		return self._elements[textBoxName]
+
+	def addHealthBar(self, healthBarName):
+		if not healthBarName in self._elements:
+			self._elements[healthBarName] = HealthBar(self)
+		return self._elements[healthBarName]
 
 	################################
 

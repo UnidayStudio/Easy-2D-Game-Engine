@@ -1,11 +1,6 @@
 import pygame
 import pygame_gui
 
-import engine.app
-
-from engine.math import Vector
-import engine.math
-
 from engine.gui.uielement import UIElement
 
 class TextBox(UIElement):
